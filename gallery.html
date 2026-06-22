@@ -66,6 +66,7 @@
             transition: width 0.1s ease;
         }
 
+        /* ====== إصلاح شريط الإعلانات ====== */
         .urgent-ticker-container {
             background: var(--primary-gradient);
             color: #fff;
@@ -567,6 +568,7 @@
             opacity: 0.7;
         }
 
+        /* ====== تجاوب ====== */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             nav ul {
@@ -613,6 +615,7 @@
             .hero-slider-mini .slider-dots-mini span.active { width: 28px; }
         }
 
+        /* ====== الوضع الليلي ====== */
         [data-theme="dark"] .masonry-grid .masonry-item {
             background: var(--bg-card);
             border-color: var(--glass-border);
@@ -620,36 +623,6 @@
         [data-theme="dark"] header {
             background: rgba(15, 23, 42, 0.85);
         }
-        .menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 8px;
-}
-
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
-    nav ul {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        padding-top: 16px;
-        border-top: 1px solid var(--glass-border);
-    }
-    nav ul.open {
-        display: flex;
-    }
-    nav ul li a {
-        padding: 10px 20px;
-        width: 100%;
-        text-align: center;
-    }
-}
     </style>
 </head>
 <body>
@@ -658,7 +631,8 @@
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-     <div class="urgent-ticker-container" role="alert" aria-live="assertive">
+    <!-- ====== شريط الإعلانات ====== -->
+    <div class="urgent-ticker-container" role="alert" aria-live="assertive">
         <div class="urgent-ticker-text">
             <span class="urgent-badge"><i class="fa-solid fa-bullhorn"></i> عاجل</span>
             <span class="announcement-text">
@@ -666,6 +640,7 @@
             </span>
         </div>
     </div>
+
 
     <header>
         <nav>
@@ -734,7 +709,7 @@
         </div>
 
         <!-- ====== شبكة المعرض ====== -->
-       <div class="gallery-masonry">
+        <div class="gallery-masonry">
             <div class="section-header">
                 <h2>📸 ذكريات أطفالنا الجميلة</h2>
                 <p>لحظات لا تُنسى من رحلة أطفالنا التعليمية والترفيهية</p>
@@ -821,6 +796,7 @@
 
             </div>
         </div>
+
     </main>
 
     <!-- ====== Lightbox ====== -->
@@ -859,7 +835,11 @@
 
     <script src="../js/app.js"></script>
     <script>
-        // ====== Lightbox Script ======
+        // ================================================================
+        //  سكريبت المعرض
+        // ================================================================
+
+        // ====== Lightbox ======
         (function() {
             var lightbox = document.getElementById('lightbox');
             var lightboxImg = document.getElementById('lightboxImg');
@@ -960,122 +940,115 @@
                 appearObserver.observe(el);
             });
 
-            console.log('✅ صفحة المعرض - التصميم الجديد جاهز!');
+            console.log('✅ Lightbox جاهز!');
         })();
+
         // ====== سلايدر الصور ======
-(function() {
-    var slides = document.querySelectorAll('#heroSliderMini .slide');
-    var dots = document.querySelectorAll('#sliderDotsMini span');
-    var prevBtn = document.getElementById('sliderPrevMini');
-    var nextBtn = document.getElementById('sliderNextMini');
-    var currentSlide = 0;
-    var slideInterval;
+        (function() {
+            var slides = document.querySelectorAll('#heroSliderMini .slide');
+            var dots = document.querySelectorAll('#sliderDotsMini span');
+            var prevBtn = document.getElementById('sliderPrevMini');
+            var nextBtn = document.getElementById('sliderNextMini');
+            var currentSlide = 0;
+            var slideInterval;
 
-    function showSlide(index) {
-        slides.forEach(function(s, i) {
-            s.classList.toggle('active', i === index);
-        });
-        dots.forEach(function(d, i) {
-            d.classList.toggle('active', i === index);
-        });
-        currentSlide = index;
-    }
-
-    function nextSlide() {
-        showSlide((currentSlide + 1) % slides.length);
-    }
-
-    function prevSlide() {
-        showSlide((currentSlide - 1 + slides.length) % slides.length);
-    }
-
-    function startAutoSlide() {
-        slideInterval = setInterval(nextSlide, 5000);
-    }
-
-    function resetAutoSlide() {
-        clearInterval(slideInterval);
-        startAutoSlide();
-    }
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', function() {
-            prevSlide();
-            resetAutoSlide();
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', function() {
-            nextSlide();
-            resetAutoSlide();
-        });
-    }
-
-    dots.forEach(function(dot, index) {
-        dot.addEventListener('click', function() {
-            showSlide(index);
-            resetAutoSlide();
-        });
-    });
-
-    // تشغيل السلايدر تلقائياً
-    startAutoSlide();
-
-    console.log('✅ السلايدر شغال!');
-})();
-// ====== الوضع الليلي ======
-(function() {
-    var toggleBtn = document.getElementById('darkModeToggle');
-    var currentTheme = localStorage.getItem('theme') || 'light';
-
-    // تطبيق الثيم المحفوظ
-    document.documentElement.setAttribute('data-theme', currentTheme);
-
-    if (toggleBtn) {
-        var icon = toggleBtn.querySelector('i');
-        updateIcon(currentTheme);
-
-        toggleBtn.addEventListener('click', function() {
-            var theme = document.documentElement.getAttribute('data-theme');
-            var newTheme = theme === 'dark' ? 'light' : 'dark';
-
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateIcon(newTheme);
-        });
-    }
-
-    function updateIcon(theme) {
-        var icon = document.querySelector('#darkModeToggle i');
-        if (icon) {
-            if (theme === 'dark') {
-                icon.className = 'fas fa-sun';
-            } else {
-                icon.className = 'fas fa-moon';
+            function showSlide(index) {
+                slides.forEach(function(s, i) {
+                    s.classList.toggle('active', i === index);
+                });
+                dots.forEach(function(d, i) {
+                    d.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
             }
-        }
-    }
-})();
-// ====== زر القائمة المتنقلة ======
-(function() {
-    var menuToggle = document.getElementById('menuToggle');
-    var navMenu = document.getElementById('navMenu');
 
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('open');
-        });
+            function nextSlide() {
+                showSlide((currentSlide + 1) % slides.length);
+            }
 
-        // إغلاق القائمة عند الضغط على أي رابط (اختياري)
-        var links = navMenu.querySelectorAll('a');
-        links.forEach(function(link) {
-            link.addEventListener('click', function() {
-                navMenu.classList.remove('open');
+            function prevSlide() {
+                showSlide((currentSlide - 1 + slides.length) % slides.length);
+            }
+
+            function startAutoSlide() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function resetAutoSlide() {
+                clearInterval(slideInterval);
+                startAutoSlide();
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    prevSlide();
+                    resetAutoSlide();
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    nextSlide();
+                    resetAutoSlide();
+                });
+            }
+
+            dots.forEach(function(dot, index) {
+                dot.addEventListener('click', function() {
+                    showSlide(index);
+                    resetAutoSlide();
+                });
             });
-        });
-    }
-})();
+
+            startAutoSlide();
+            console.log('✅ السلايدر شغال!');
+        })();
+
+        // ====== الوضع الليلي ======
+        (function() {
+            var toggleBtn = document.getElementById('darkModeToggle');
+            var currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+
+            if (toggleBtn) {
+                var icon = toggleBtn.querySelector('i');
+                updateIcon(currentTheme);
+
+                toggleBtn.addEventListener('click', function() {
+                    var theme = document.documentElement.getAttribute('data-theme');
+                    var newTheme = theme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    updateIcon(newTheme);
+                });
+            }
+
+            function updateIcon(theme) {
+                var icon = document.querySelector('#darkModeToggle i');
+                if (icon) {
+                    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+                }
+            }
+        })();
+
+        // ====== زر القائمة المتنقلة ======
+        (function() {
+            var menuToggle = document.getElementById('menuToggle');
+            var navMenu = document.getElementById('navMenu');
+
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('open');
+                });
+
+                var links = navMenu.querySelectorAll('a');
+                links.forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        navMenu.classList.remove('open');
+                    });
+                });
+            }
+        })();
     </script>
 
 </body>
