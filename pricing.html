@@ -1320,6 +1320,28 @@
     .announcement-text i {
         margin-left: 4px;
     }
+    /* ====== إصلاح شريط الإعلانات ====== */
+.urgent-ticker-text {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: tickerLoop 25s linear infinite;
+}
+
+@keyframes tickerLoop {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.announcement-text {
+    display: inline-block;
+    padding-right: 20px;
+    flex-shrink: 0;
+}
+
+.announcement-text i {
+    margin-left: 4px;
+}
      </style>
 </head>
 <body>
